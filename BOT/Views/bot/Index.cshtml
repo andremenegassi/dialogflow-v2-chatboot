@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="referrer" content="no-referrer">
+    <title>BOT</title>
+
+    <meta property="og:title" content="UIA" />
+    <meta property="og:description" content="UNOESTE Inteligência Artificial" />
+    <meta property="og:locale" content="pt-br" />
+    <meta property="og:image" content="" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <script src="~/js/jquery/jquery.js"></script>
+    <script src="~/js/utils.js"></script>
+
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,300&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Extended" rel="stylesheet">
+    <link href='https://cdn.jsdelivr.net/fontawesome/4.6.3/css/font-awesome.min.css' rel='stylesheet' type='text/css'>
+    <link href="~/views/bot/Index.css" rel="stylesheet" />
+</head>
+<body>
+    <input type="hidden" id="hfSessionId" value="@ViewBag.SessionId" />
+
+    <div id="preloader">
+        <noscript>
+            <h1>Esta aplicação não funcionada sem Javascript</h1>
+        </noscript>
+        <div class="logo"></div>
+    </div>
+
+    <div class="b-agent">
+
+        <div class="b-agent_header">
+            <div class="b-agent_header-icon">
+                <div class="b-agent_header-icon-align-helper">
+                    <img id="agent-avatar" src="~/views/bot/bot.png" />
+                </div>
+            </div>
+            <div class="b-agent_header-wrapper">
+                <div class="b-agent_header-agent-name">FIPP.IA</div>
+                <div class="b-agent_header-description">FIPP Inteligência Artificial</div>
+            </div>
+            <div class="b-agent_header-close">
+                <i class="b-agent_input-close material-icons-extended" id="close">close</i>
+            </div>
+        </div>
+
+        <div class="b-agent_result" id="resultWrapper">
+            <table class="b-agent_result-table"><tr><td id="result"></td></tr></table>
+        </div>
+        <div class="clearfix"></div>
+        <div class="b-agent_input">
+            <form id="agentForm">
+                <input type="text" name="q" id="query" placeholder="Diga alguma coisa..." autocomplete="off" />
+                <i class="b-agent_input-microphone material-icons-extended" id="mic">mic</i>
+                <i class="b-agent_input-menu material-icons-extended" id="menu">menu</i>
+            </form>
+        </div>
+    </div>
+
+    <script src="~/views/bot/Index.js"></script>
+
+</body>
+
+</html>
