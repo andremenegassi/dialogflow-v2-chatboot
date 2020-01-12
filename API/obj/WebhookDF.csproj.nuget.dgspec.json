@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\temp\\dialogflow\\API\\WebhookDF.csproj": {}
+    "C:\\Temp\\dialogflow-v2-chatboot\\API\\WebhookDF.csproj": {}
   },
   "projects": {
-    "C:\\temp\\dialogflow\\API\\WebhookDF.csproj": {
+    "C:\\Temp\\dialogflow-v2-chatboot\\API\\WebhookDF.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\temp\\dialogflow\\API\\WebhookDF.csproj",
+        "projectUniqueName": "C:\\Temp\\dialogflow-v2-chatboot\\API\\WebhookDF.csproj",
         "projectName": "WebhookDF",
-        "projectPath": "C:\\temp\\dialogflow\\API\\WebhookDF.csproj",
-        "packagesPath": "C:\\Users\\cweb\\.nuget\\packages\\",
-        "outputPath": "C:\\temp\\dialogflow\\API\\obj\\",
+        "projectPath": "C:\\Temp\\dialogflow-v2-chatboot\\API\\WebhookDF.csproj",
+        "packagesPath": "C:\\Users\\andre\\.nuget\\packages\\",
+        "outputPath": "C:\\Temp\\dialogflow-v2-chatboot\\API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\cweb\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\andre\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

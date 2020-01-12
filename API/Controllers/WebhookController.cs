@@ -15,6 +15,8 @@ namespace WebhookDF.Controllers
     [Route("api/[controller]")]
     public class WebhookController : ControllerBase
     {
+		private ProjectAgentName _projectAgentName = new ProjectAgentName(Environment.GetEnvironmentVariable("PROJETO_AGENT_NAME"));
+
 		private static readonly JsonParser _jsonParser = new JsonParser(JsonParser.Settings.Default.WithIgnoreUnknownFields(true));
 
 		System.Text.Json.JsonSerializerOptions _jsonSetting = new System.Text.Json.JsonSerializerOptions()
@@ -32,72 +34,6 @@ namespace WebhookDF.Controllers
         {
 			return Ok(new { msg = "deu certo" });
         }
-
-
-		[HttpGet("[action]")]
-		public IActionResult CriarIntent()
-		{
-			//Usar as credenciais;
-
-			Google.Cloud.Dialogflow.V2.EntityTypesClient c = EntityTypesClient.Create();
-		 
-			var listE = c.ListEntityTypes(new ProjectAgentName("ep1-jimkbv"));
-
-			EntityType entidade = null;
-
-			foreach (var item in listE)
-			{
-				if (item.DisplayName == "eteste")
-				{
-					//c.DeleteEntityType(item.EntityTypeName);
-					entidade = item;
-					
-					c.BatchDeleteEntities(item.EntityTypeName, item.Entities.Select(e => e.Value).ToArray());
-				}
-			}
-
-
-			if (entidade == null)
-			{
-				entidade = new EntityType();
-
-				entidade.DisplayName = "eteste";
-
-				var e = new EntityType.Types.Entity();
-				e.Value = "nome do item";
-				e.Synonyms.Add("sinonimo11");
-				e.Synonyms.Add("sinonimo22");
-				entidade.Entities.Add(new EntityType.Types.Entity(e));
-				entidade.Kind = EntityType.Types.Kind.Map;
-
-
-				var request = new Google.Cloud.Dialogflow.V2.CreateEntityTypeRequest();
-				//var request = new Google.Cloud.Dialogflow.V2.UpdateEntityTypeRequest();
-				request.EntityType = entidade;
-				//request.Parent = "ep1-jimkbv";
-				request.ParentAsProjectAgentName = new ProjectAgentName("ep1-jimkbv");
-
-				var retorno = c.CreateEntityType(request);
-			}
-			else {
-
-				var e = new EntityType.Types.Entity();
-				e.Value = "nome do item";
-				e.Synonyms.Add("sinonimo1");
-				entidade.Entities.Add(new EntityType.Types.Entity(e));
-
-				var request = new Google.Cloud.Dialogflow.V2.UpdateEntityTypeRequest();
-				request.EntityType = entidade;
-
-				var retorno = c.UpdateEntityType(request);
-				
-			}
-
-
-
-			return Ok(new { msg = "deu certo" });
-		}
-
 
 		private bool Autorizado(IHeaderDictionary httpHeader)
 		{
@@ -178,6 +114,155 @@ namespace WebhookDF.Controllers
 
 			
 		}
+
+
+
+		[HttpGet("[action]")]
+		public IActionResult CriarEntity()
+		{
+			//Usa as credenciais;
+
+			Google.Cloud.Dialogflow.V2.EntityTypesClient c = EntityTypesClient.Create();
+
+			EntityType entidade = new EntityType();
+			entidade.DisplayName = "EntidadeViaAPI";
+			entidade.Kind = EntityType.Types.Kind.Map;
+
+			var item = new EntityType.Types.Entity();
+			item.Value = "Item 1";
+			item.Synonyms.Add("Item 1"); //incluir o valor original como item da entidade.
+			item.Synonyms.Add("Sinonimo 1");
+			item.Synonyms.Add("Sinonimo 2");
+
+			entidade.Entities.Add(new EntityType.Types.Entity(item));
+
+
+			var request = new Google.Cloud.Dialogflow.V2.CreateEntityTypeRequest();
+			request.EntityType = entidade;
+			request.ParentAsProjectAgentName = _projectAgentName;
+
+			c.CreateEntityType(request);
+
+			return Ok(new { msg = "Entidade criada." });
+		}
+
+
+		[HttpGet("[action]")]
+		public IActionResult ExcluirEntity(bool apenasItens = false)
+		{
+			//Usa as credenciais;
+
+			Google.Cloud.Dialogflow.V2.EntityTypesClient c = EntityTypesClient.Create();
+
+			var listE = c.ListEntityTypes(_projectAgentName);
+
+			foreach (var entidade in listE)
+			{
+				if (entidade.DisplayName == "EntidadeViaAPI")
+				{
+
+					if (apenasItens)
+					{
+						//Apaga os itens
+						c.BatchDeleteEntities(entidade.EntityTypeName, entidade.Entities.Select(e => e.Value).ToArray());
+					}
+					else
+					{
+						c.DeleteEntityType(entidade.EntityTypeName);
+					}
+
+					break;
+				}
+			}
+
+
+			return Ok(new { msg = "Entidade excluída." });
+		}
+
+
+		[HttpGet("[action]")]
+		public IActionResult AlterarEntity()
+		{
+			//Usa as credenciais;
+
+			Google.Cloud.Dialogflow.V2.EntityTypesClient c = EntityTypesClient.Create();
+
+			var listE = c.ListEntityTypes(_projectAgentName);
+
+
+			foreach (var entidade in listE)
+			{
+				if (entidade.DisplayName == "EntidadeViaAPI")
+				{
+					var item = entidade.Entities.Where(item => item.Value == "Item 1").FirstOrDefault();
+
+					if (item != null)
+					{
+						item.Synonyms.Remove("Sinonimo 1");
+						item.Synonyms.Add("Sinonimo 3");
+
+						var request = new Google.Cloud.Dialogflow.V2.UpdateEntityTypeRequest();
+						request.EntityType = entidade;
+
+						c.UpdateEntityType(request);
+
+						break;
+					}
+				}
+			}
+
+
+			return Ok(new { msg = "Entidade alterada." });
+		}
+
+
+
+
+		[HttpGet("[action]")]
+		public IActionResult CriarIntent()
+		{
+			//Usa as credenciais;
+
+			Google.Cloud.Dialogflow.V2.IntentsClient c = IntentsClient.Create();
+
+			Intent intent = new Intent();
+			intent.DisplayName = "Bot.Email";
+
+			var frase1 = new Intent.Types.TrainingPhrase();
+			frase1.Parts.Add(new Intent.Types.TrainingPhrase.Types.Part() {
+				Text = "Qual seu e-mail?"
+			}); 
+
+			var frase2 = new Intent.Types.TrainingPhrase();
+			frase2.Parts.Add(new Intent.Types.TrainingPhrase.Types.Part()
+			{
+				Text = "Seu e-mail é?"
+			});
+
+			intent.TrainingPhrases.Add(frase1);
+			intent.TrainingPhrases.Add(frase2);
+
+
+			var resposta = new Intent.Types.Message();
+			resposta.Text = new Intent.Types.Message.Types.Text();
+			resposta.Text.Text_.Add("bot@unoeste.br");
+
+
+			intent.Messages.Add(resposta);
+
+			var request = new Google.Cloud.Dialogflow.V2.CreateIntentRequest();
+			request.Intent = intent;
+			request.ParentAsProjectAgentName = _projectAgentName;
+			
+			c.CreateIntent(request);
+			
+			//Não esquecer de trainar o agente: Config > ML Settings
+
+
+			return Ok(new { msg = "Intent criada." });
+		}
+
+
 	}
 }
  

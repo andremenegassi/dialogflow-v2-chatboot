@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\temp\\dialogflow\\BOT\\Chatbot.csproj": {}
+    "C:\\Temp\\dialogflow-v2-chatboot\\BOT\\Chatbot.csproj": {}
   },
   "projects": {
-    "C:\\temp\\dialogflow\\BOT\\Chatbot.csproj": {
+    "C:\\Temp\\dialogflow-v2-chatboot\\BOT\\Chatbot.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\temp\\dialogflow\\BOT\\Chatbot.csproj",
+        "projectUniqueName": "C:\\Temp\\dialogflow-v2-chatboot\\BOT\\Chatbot.csproj",
         "projectName": "Chatbot",
-        "projectPath": "C:\\temp\\dialogflow\\BOT\\Chatbot.csproj",
-        "packagesPath": "C:\\Users\\cweb\\.nuget\\packages\\",
-        "outputPath": "C:\\temp\\dialogflow\\BOT\\obj\\",
+        "projectPath": "C:\\Temp\\dialogflow-v2-chatboot\\BOT\\Chatbot.csproj",
+        "packagesPath": "C:\\Users\\andre\\.nuget\\packages\\",
+        "outputPath": "C:\\Temp\\dialogflow-v2-chatboot\\BOT\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\cweb\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\andre\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
